@@ -1147,8 +1147,13 @@ def main():
         build_html_report(qualifying, args.output_html)
 
     # 同步複製到 latest/ 與本日目錄
+    # 2026-09-27 修正：本日目錄原本寫死成 "2026-09-26"，每天都寫進同一個舊資料夾。
+    #   改用執行當天的日期，跟 macro-dashboard 的 history.py（reports/<今天>）與
+    #   publish_discord.py（Pages/<今天>）同一個規則。本日目錄還不存在時照舊略過，
+    #   交給主流程第 ⑨ 步發布時建立（它會一併帶上 optimized_screener_report.html）。
     latest_dir = os.path.join(BASE_DIR, "latest")
-    for d_path in [latest_dir, os.path.join(BASE_DIR, "2026-09-26")]:
+    today_dir = os.path.join(BASE_DIR, datetime.date.today().strftime("%Y-%m-%d"))
+    for d_path in [latest_dir, today_dir]:
         if os.path.isdir(d_path):
             try:
                 target_html = os.path.join(d_path, "optimized_screener_report.html")
