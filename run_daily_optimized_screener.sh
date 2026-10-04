@@ -81,7 +81,12 @@ if [ "$DO_PUBLISH" -eq 1 ] || [ "${SCREENER_PUBLISH_ENABLED:-0}" = "1" ]; then
         if ! git diff --cached --quiet; then
             git commit -m "Auto-update Optimized Alpha Screener report ${TODAY}" 2>&1 | tee -a "$LOG_FILE"
             git push origin main 2>&1 | tee -a "$LOG_FILE"
-            log "✅ 成功發布至 GitHub Pages！"
+            PUSH_RC=$?
+            if [ $PUSH_RC -eq 0 ]; then
+                log "✅ 成功發布至 GitHub Pages！"
+            else
+                log "ERROR: 推送 GitHub 失敗 (代碼: $PUSH_RC)，報告只存在本機，下次推送成功時會一起補上。"
+            fi
         else
             log "ℹ️ 報告內容已是最新，無需產生新的 git commit。"
         fi
