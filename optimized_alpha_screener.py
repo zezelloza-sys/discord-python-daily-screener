@@ -32,6 +32,8 @@ from collections import defaultdict
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# 日期資料夾（YYYY-MM-DD）的比對樣式。不寫死年份，也不會比對到 latest/、logs/ 這類非日期資料夾。
+DAY_DIR_GLOB = "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"
 MACRO_OUT_DIR = "/Users/eric/macro-dashboard/screener/out"
 MACRO_BARS_DIR = "/Users/eric/macro-dashboard/screener/cache/bars"
 
@@ -177,7 +179,8 @@ def load_all_signals(db: dict[str, dict]) -> list[dict]:
     signals = {}
 
     # 1. screener_returns_5d_20d.html
-    for f in sorted(glob.glob(os.path.join(BASE_DIR, "2026-*/screener_returns_5d_20d.html"))):
+    # 2026-10-05 修正：原本寫死 "2026-*"，2027 年起的日期資料夾會默默讀不到。改成任何 YYYY-MM-DD。
+    for f in sorted(glob.glob(os.path.join(BASE_DIR, DAY_DIR_GLOB, "screener_returns_5d_20d.html"))):
         with open(f, "r", encoding="utf-8") as fp:
             text = fp.read()
         rows = re.findall(
@@ -206,7 +209,7 @@ def load_all_signals(db: dict[str, dict]) -> list[dict]:
         "claude_fibb": "claude_fibb.html",
         "mtf4": "mtf4.html",
     }
-    scan_folders = sorted(glob.glob(os.path.join(BASE_DIR, "2026-*")))
+    scan_folders = sorted(glob.glob(os.path.join(BASE_DIR, DAY_DIR_GLOB)))   # 同上，原本寫死 "2026-*"
     latest_folder = os.path.join(BASE_DIR, "latest")
     if os.path.isdir(latest_folder):
         scan_folders.append(latest_folder)
