@@ -978,6 +978,12 @@ def main():
         help="是否允許處於「衰退」與「擁擠」狀態的逆風板塊 (預設: 嚴格排除)",
     )
     parser.add_argument(
+        "--max-age-bars",
+        type=int,
+        default=20,
+        help="只保留最近 N 個交易日內的訊號（預設 20，跟名單的 20 根窗口一致；0 = 不限，等於舊行為）",
+    )
+    parser.add_argument(
         "--output-html",
         default="optimized_screener_report.html",
         help="HTML K 棒報告輸出路徑",
@@ -999,6 +1005,15 @@ def main():
     sec_map, sec_cur, sec_hist, cluster_cur, cluster_hist = load_sector_rotation_data()
     signals = load_all_signals(db)
     print(f"加載歷史原始候選訊號總數: {len(signals)}")
+    # 2026-10-07：訊號時效。原本沒有任何過期機制，07 月底的訊號到 10 月還留在清單上
+    #   （10-07 的 117 檔裡有 71 檔超過一個月）。改成只留最近 N 個交易日；交易日曆取價格快取裡出現過的日期。
+    if args.max_age_bars > 0:
+        cal = sorted({d for rec in db.values() for d in rec["dates"]})
+        if len(cal) >= args.max_age_bars:
+            cutoff = cal[-args.max_age_bars]
+            n_before = len(signals)
+            signals = [s for s in signals if str(s.get("sig_date", "")) >= cutoff]
+            print(f"訊號時效：只保留 {cutoff} 起（最近 {args.max_age_bars} 個交易日）的訊號 {len(signals)} / {n_before} 筆")
     print(f"載入全市場標的板塊表: {len(sec_map)} 檔，板塊輪動記錄: {len(sec_hist)} 筆，細分聚落輪動: {len(cluster_hist)} 筆")
 
     # 因子計算與過濾
@@ -1075,6 +1090,19 @@ def main():
     )
     qualifying = deduped_qualifying
 
+    # 2026-10-07：補上今天的價格與訊號後漲跌。卡片大字原本是訊號當天的起始價（p_start），
+    #   看起來像價格沒更新；現在大字改用價格快取的最後一根收盤，起始價另外標示。
+    for q in qualifying:
+        rec = db.get(q["ticker"])
+        if rec and rec["list"]:
+            q["px_now"] = float(rec["list"][-1]["close"])
+            q["px_now_date"] = rec["dates"][-1]
+        else:
+            q["px_now"] = float(q["p_start"])
+            q["px_now_date"] = ""
+        ps = float(q["p_start"]) if q.get("p_start") else 0.0
+        q["chg_since_sig"] = (round((q["px_now"] / ps - 1) * 100, 2) or 0.0) if ps > 0 else ""   # or 0.0：避免顯示 -0.00
+
     # 排序：優先以最新日期、聚落突破狀態與 RVOL
     qualifying.sort(
         key=lambda x: (
@@ -1094,7 +1122,8 @@ def main():
             "板塊輪動狀態", "板塊輪動評分", "Screener策略", "訊號日期", "起始價", "停損價", "停損幅(%)",
             "目標價", "目標空間(%)", "風險報酬比", "前期回踩(%)",
             "開盤缺口(%)", "相對成交量(RVOL)", "日波動ATR(%)",
-            "20D報酬(%)", "20D MFE(%)", "20D MAE(%)", "達頂天數"
+            "20D報酬(%)", "20D MFE(%)", "20D MAE(%)", "達頂天數",
+            "現價", "現價日期", "訊號後漲跌(%)"
         ])
         for q in qualifying:
             writer.writerow([
@@ -1104,7 +1133,8 @@ def main():
                 q["screener"], q["sig_date"], q["p_start"],
                 q["stop_price"], q["stop_loss_pct"], q["target_price"], q["target_space"], q["risk_reward"],
                 q["prior_pullback"], q.get("gap_pct", 0.0), q["rvol"], q["atr_pct"],
-                q.get("ret_20d", ""), q.get("mfe_20d", ""), q.get("mae_20d", ""), q.get("t_mfe", "")
+                q.get("ret_20d", ""), q.get("mfe_20d", ""), q.get("mae_20d", ""), q.get("t_mfe", ""),
+                q["px_now"], q["px_now_date"], q["chg_since_sig"]
             ])
     # 輸出相容格式 CSV 至 macro-dashboard 供 report.py 繪圖
     macro_out_csv = "/Users/eric/macro-dashboard/screener/out/optimized_alpha.csv"
@@ -1116,18 +1146,29 @@ def main():
                 "symbol", "name", "sector", "industry", "cluster", "cluster_regime", "cluster_score",
                 "sector_phase", "sector_score", "screener", "asof", "px", "stop_price", "stop_loss_pct",
                 "target_price", "target_space", "risk_reward", "prior_pullback", "gap_pct", "rvol", "atr_pct",
-                "score", "ret_20d", "mfe_20d", "mae_20d"
+                "score", "ret_20d", "mfe_20d", "mae_20d",
+                "px_sig", "chg_since_sig", "asof_now"
             ])
+            # 2026-10-07：這份 CSV 只給 report.py 畫卡片用。卡片大字 px 改成今天的價格，
+            #   卡片上的「停損 %」與「目標空間 %」也改成相對今天的價格，跟大字對得起來。
+            #   訊號當天的起始價放 px_sig，訊號後漲跌放 chg_since_sig，價格日期放 asof_now。
+            #   中文的 optimized_candidates.csv 不變（仍是訊號當天算的停損幅與目標空間）。
             for q in qualifying:
+                pn = q["px_now"]
+                tp = float(q["target_price"]) if q.get("target_price") not in ("", None) else 0.0
+                sp = float(q["stop_price"]) if q.get("stop_price") not in ("", None) else 0.0
+                space_now = round((tp / pn - 1) * 100, 1) if tp > 0 and pn > 0 else q["target_space"]
+                stop_now = round((sp / pn - 1) * 100, 1) if sp > 0 and pn > 0 else q["stop_loss_pct"]
                 writer.writerow([
                     q["ticker"], q.get("name", ""), q.get("sector", ""), q.get("industry", ""),
                     q.get("cluster", ""), q.get("cluster_regime", ""), q.get("cluster_score", ""),
                     q.get("sector_phase", ""), q.get("sector_score", ""),
-                    q["screener"], q["sig_date"], q["p_start"],
-                    q["stop_price"], q["stop_loss_pct"], q["target_price"], q["target_space"], q["risk_reward"],
+                    q["screener"], q["sig_date"], pn,
+                    q["stop_price"], stop_now, q["target_price"], space_now, q["risk_reward"],
                     q["prior_pullback"], q.get("gap_pct", 0.0), q["rvol"], q["atr_pct"],
                     q.get("cluster_score", 50.0),
-                    q.get("ret_20d", ""), q.get("mfe_20d", ""), q.get("mae_20d", "")
+                    q.get("ret_20d", ""), q.get("mfe_20d", ""), q.get("mae_20d", ""),
+                    q["p_start"], q["chg_since_sig"], q["px_now_date"]
                 ])
     except Exception as e:
         print(f"寫入 macro-dashboard CSV 警告: {e}")
