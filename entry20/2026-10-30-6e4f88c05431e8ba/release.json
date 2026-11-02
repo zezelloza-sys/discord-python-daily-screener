@@ -1,0 +1,17 @@
+{
+  "version": "ENTRY20_DAILY_DELIVERY_V2_OVERVIEW_CHARTS",
+  "package_id": "6e4f88c05431e8bae0b8381e05fbca2ec3faa39e6422e978bab72f22ce8f1b5b",
+  "price_cutoff": "2026-10-30",
+  "source_recorded_at": "2026-11-02T13:10:16.804731+00:00",
+  "research_only": true,
+  "historical_not_prospective": true,
+  "files": {
+    "index.html": "8c34d47607f63ad510a3c5b4d93feb106a7006535a8edabf8787a9a0c477cee3",
+    "KBAR.html": "ac15dbfb85d635fbc4fea93191d5c16089514b4a849d44d20c71a8c653dc83a2",
+    "watchlist_curated.txt": "d9a9b26998199d6e1511175292bb52bb59d5b706c3b7303c51842215c5d0d08c",
+    "watchlist_market.txt": "0cd3881103578b982c42a0e62863861f630dc0c9af4386816af13c1b5a518d57",
+    "summary.png": "982b2938f946e0063691673034ce48309bcd63ca00ffb40345cc1438521a3699",
+    "curated-kbar.png": "834e82ed42548ded8c970821726aa9da8998947ea4f3f4bf6d178e6684d7d7a0",
+    "market-kbar.png": "95584a77f6c70ffcf26e598e5f08ff8377cffbef3769c6c9a17c8702447a994f"
+  }
+}
