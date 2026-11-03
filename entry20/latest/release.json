@@ -1,17 +1,17 @@
 {
   "version": "ENTRY20_DAILY_DELIVERY_V2_OVERVIEW_CHARTS",
-  "package_id": "4b93f086beceac93afe4782b7c208a95718ba380f4588fcd6b4c1c5204cf4f9b",
-  "price_cutoff": "2026-11-02",
-  "source_recorded_at": "2026-11-02T23:38:35.041985+00:00",
+  "package_id": "fb0849b5d0226760d42897e0785ef8ad2cd4256d0fb639bca0b17baa066ccaa5",
+  "price_cutoff": "2026-11-03",
+  "source_recorded_at": "2026-11-03T23:38:54.502317+00:00",
   "research_only": true,
   "historical_not_prospective": true,
   "files": {
-    "index.html": "36a74cd883def0ca3468f04988377e4f1cb57dbd1bf5f16748316d3b8a4c4c43",
-    "KBAR.html": "da7edb9e77005f091290912f662ca1a53da759b2572fedce07aa072b3e99790c",
-    "watchlist_curated.txt": "211e0154233306427088a57d73ddf4b906fc9ec911210c8ead2cb13d7902c6bf",
-    "watchlist_market.txt": "f1bd5daf8b19d684ef6b3fa7b85dba559048ebf7300fc50f9f58ca1ee6c80106",
-    "summary.png": "8dd0e9a84fd78374ee9206bc57b7d7d6e300ed22c0b3d74d10d507d31a5d4f1d",
-    "curated-kbar.png": "edeb44844e9a9975c8b3d756df8b4f1dfb72c5c5106390a5fa45419b5d680971",
-    "market-kbar.png": "7ff9cbf103d65b5781918bc32ef041d6f896eccef87f4f0fc5e8ee651fa144df"
+    "index.html": "b9ea60207c94210a76470588367958bb2daa603d4f0b1075eeddc382575d667c",
+    "KBAR.html": "5b11464db95db6a562641506d0bb9051c1e7ba6366b8b1e3924457203d2d14f6",
+    "watchlist_curated.txt": "a768cc07b20eb584997a94014670e013f460ae8b109976c68231b14f574ff42f",
+    "watchlist_market.txt": "abd3b86da51575b9f1a16079856dd95425952e0f1aa9582def46e188dffefb84",
+    "summary.png": "fe0669ed0a769c7a39c95dd6b39c6388eb47d9bbd93e65386ddeddca0cc85650",
+    "curated-kbar.png": "d168b5616484cc764e2f8cc175461c5f1dd745d49227c70942b7b846e7c22627",
+    "market-kbar.png": "48506e03248783e130490885f234e8321837a917c5b37e089215fba5ba2a506d"
   }
 }
