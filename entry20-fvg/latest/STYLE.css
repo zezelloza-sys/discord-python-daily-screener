@@ -82,6 +82,7 @@ table.t .s{font-family:var(--fh);font-weight:800}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.stock-card{min-width:0;background:white;border:1px solid #ccd7df;padding:16px;scroll-margin:15px}
     .stock-card h3{font-size:24px;margin:0}.meta{font-size:12px;color:#506271;overflow-wrap:anywhere}.badge{display:inline-block;padding:5px 9px;background:#e9eef3;color:#2e4655;margin:5px 0}
     .NEW_SIGNAL .badge{background:#d1f0de;color:#176047}.RECENT_REJECTED .badge{background:#f7ded9;color:#8d382d}
+    .layer-path{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0}.layer-chip{padding:7px 9px;border:1px solid #c5d7df;background:#edf5f7;font-size:13px}.layer-chip b{font-size:16px}.layer-chip small{display:block;color:#566e7b}.layer-current{background:#e9f0fd;border-color:#bdcee8}
     .chart{min-height:310px;overflow:auto}.fvg-chart{width:100%;min-width:540px;display:block}.muted{color:#657986}.notice{border-left:4px solid #178ab0;padding:10px 15px;background:#edf6fa}
     .empty{padding:20px}.detail .grid{grid-template-columns:1fr}.detail .fvg-chart{max-height:650px}
     @media(max-width:900px){.grid{grid-template-columns:1fr}}@media(max-width:500px){.wrap,.section{padding:10px}h1{font-size:23px}.stat{min-width:140px}.chart{min-height:220px}}

@@ -1,0 +1,22 @@
+{
+  "version": "FVG_EMA21_DAILY_V2_LAYER_LABELS",
+  "package_id": "61be16591dd4ec405aba6beb2feabaffe8d6b58f1a01d91492af646aa991309b",
+  "price_cutoff": "2026-11-06",
+  "rule_id": "FIRST_FVG_DEFENSE_EMA21_V1",
+  "research_only": true,
+  "first_publication_does_not_backdate_signals": true,
+  "files": {
+    "index.html": "7b3e2ae2118dcc7e83165656a0648005e8f7a80ef2a0b7ed19b90b6678287a5d",
+    "KBAR.html": "1370b2f4d67d5d809f77174b6031023ea61d0b9ee737d8bd51394d919732ed26",
+    "DATA.js": "0f784b90f9b503e611f9fba3ee6acc7e1ce50f6be8a9a614b874a540258a1dee",
+    "VIEW.js": "9d12a3a2924b08cf14b509896aad1cf7e1be0a034422e0468b2c28ac5fb75e4b",
+    "STYLE.css": "8190ba198d1c588393b57c533a892485ae794613a13025a8f6deadb607e46d9d",
+    "summary.png": "ee3d59edb02cb65a537e50d07fc6262afbfd406404ae9b3e787a0b83370fc025",
+    "curated-kbar.png": "369390d7727ad4515e98da6e159d769ab83e116890c0cb36c6b9c1f509292a7e",
+    "market-kbar.png": "744df6c3e08146cb2bc4981ef0a4639ceef4f63875fb311f6481d58d0154933c",
+    "watchlist_curated.txt": "a4fafbfee9a6211856293651b68c79679bcbb9c4a283165fe9587892ac2c6c0e",
+    "watchlist_market.txt": "211fd1f350f33d9de3fbd76c31b872a254b5de75ddd5078ff24248a8872344a6",
+    "signals_curated.txt": "cd9993d5ae45a7f2ffa86f2763a9c0ec2d0ad6a7d0c8023494806571bbeded89",
+    "signals_market.txt": "2db2757bfbc999db8097c1ebf3502b7f686d768300c4bd142d81373512bfc049"
+  }
+}
