@@ -1,13 +1,13 @@
 {
   "version": "ENTRY20_DAILY_DELIVERY_V2_OVERVIEW_CHARTS",
-  "package_id": "2ef4eeb3cfd5426ba758c464743c9ef3a23e8d4ade16910c7a4ffabf91ed0c71",
+  "package_id": "1d0f2a2d5d6b1b257137e71bdf0a614daa87c05c492b681f8b1df2680bc96ddf",
   "price_cutoff": "2026-11-06",
   "source_recorded_at": "2026-11-06T23:44:28.601724+00:00",
   "research_only": true,
   "historical_not_prospective": true,
   "files": {
-    "index.html": "e01b7c4f935b10be249fc9aa6d717e0b49fcde081b01d8ba1cdaa9ef01a56388",
-    "KBAR.html": "fbaa138b959261b8a351ba93040021fd7f6414d665249ccf9bfbd196e8e0f530",
+    "index.html": "b4ef907c589a677b9f050d53aec6aecb1087dba00abeefd51050914e7925cfbf",
+    "KBAR.html": "314bf231c72e451e9f2aad1a7177634deb637d6355cb5a4458120923f44deaaf",
     "watchlist_curated.txt": "34a874cc2353cf32ce2624afec1dfd18cbbd504f56330a6f46386c513ba535e2",
     "watchlist_market.txt": "7bbf81ccde9956b2344bda339e5a03b1a3a3f178084b78ca97b8727aad0a09e8",
     "summary.png": "33c05513eb6678ad6bd7d4e007c5f1ae1517c629b16f11e7fff8557d0af001a0",
